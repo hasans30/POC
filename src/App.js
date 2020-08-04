@@ -4,25 +4,26 @@ import "./App.css";
 function App() {
   return (
     <div className="App">
-      <p>
-        Edit <code>src/App.js</code> and save to reload.
-      </p>
-      <button
-        onClick={async () => {
-          myfunction().then(
-            (val) => (document.getElementById("myid").innerText = val.score)
-          );
+      <p>Enter a password to know score</p>
+      <input
+        type={"password"}
+        onChange={async (event) => {
+          let password = event.target.value;
+          console.log(password);
+          let result = await myfunction(password);
+          document.getElementById(
+            "myid"
+          ).innerText = `current score: ${result.score}`;
         }}
-      >
-        Button
-      </button>
+      ></input>
+      <div id="myid">current score: 0</div>
     </div>
   );
 }
 
 export default App;
 
-function myfunction() {
+function myfunction(pass) {
   const zxlib = import("zxcvbn");
-  return zxlib.then((l) => l.default("mypass"));
+  return zxlib.then((l) => l.default(pass));
 }
